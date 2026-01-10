@@ -67,9 +67,15 @@ with tab1:
     
     # Input Category
     category_options = list(label_encoders['category'].classes_)
+    
+    def format_category(cat_name):
+        # Mengubah 'grocery_pos' menjadi 'Grocery Pos'
+        return cat_name.replace('_', ' ').title()
+    
     category = st.sidebar.selectbox(
         "Kategori Transaksi",
         options=category_options,
+        format_func=format_category,
         help="Jenis merchant/toko tempat transaksi"
     )
     
@@ -84,17 +90,44 @@ with tab1:
     )
     
     # Input Gender
+    
     gender_options = list(label_encoders['gender'].classes_)
+    
+    # Mapping untuk tampilan user-friendly
+    gender_map = {
+        'M': 'Laki-laki (Male)',
+        'F': 'Perempuan (Female)'
+    }
+    
     gender = st.sidebar.selectbox(
         "Jenis Kelamin",
-        options=gender_options
+        options=gender_options,
+        format_func=lambda x: gender_map.get(x, x),
+        help="Pilih jenis kelamin pemegang kartu"
     )
     
     # Input State
+    # Input State
     state_options = list(label_encoders['state'].classes_)
+    
+    # Mapping State Code ke Nama Lengkap
+    us_state_map = {
+        'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California',
+        'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia',
+        'HI': 'Hawaii', 'ID': 'Idaho', 'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa',
+        'KS': 'Kansas', 'KY': 'Kentucky', 'LA': 'Louisiana', 'ME': 'Maine', 'MD': 'Maryland',
+        'MA': 'Massachusetts', 'MI': 'Michigan', 'MN': 'Minnesota', 'MS': 'Mississippi', 'MO': 'Missouri',
+        'MT': 'Montana', 'NE': 'Nebraska', 'NV': 'Nevada', 'NH': 'New Hampshire', 'NJ': 'New Jersey',
+        'NM': 'New Mexico', 'NY': 'New York', 'NC': 'North Carolina', 'ND': 'North Dakota', 'OH': 'Ohio',
+        'OK': 'Oklahoma', 'OR': 'Oregon', 'PA': 'Pennsylvania', 'RI': 'Rhode Island', 'SC': 'South Carolina',
+        'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah', 'VT': 'Vermont',
+        'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia', 'WI': 'Wisconsin', 'WY': 'Wyoming'
+    }
+    
     state = st.sidebar.selectbox(
         "Negara Bagian",
         options=state_options,
+        format_func=lambda x: f"{x} - {us_state_map.get(x, x)}" if x in us_state_map else x,
         help="Lokasi transaksi dilakukan"
     )
     
