@@ -128,7 +128,7 @@ with tab1:
     # ========================================
     # PREDIKSI
     # ========================================
-    if st.sidebar.button("🔍 ANALISIS TRANSAKSI", type="primary", use_container_width=True):
+    if st.sidebar.button("🔍 ANALISIS TRANSAKSI", type="primary", width='stretch'):
         
         # Prepare input data
         amt_per_hour_ratio = amt / (hour + 1)
@@ -278,7 +278,7 @@ with tab1:
             data=csv,
             file_name=f'fraud_prediction_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv',
             mime='text/csv',
-            use_container_width=True
+            width='stretch'
         )
 
 # ========================================
@@ -345,7 +345,7 @@ with tab2:
         
         # Show table
         st.markdown("#### 📋 Feature Importance Table")
-        st.dataframe(feature_imp_df.style.format({'Importance': '{:.4f}'}), use_container_width=True)
+        st.dataframe(feature_imp_df.style.format({'Importance': '{:.4f}'}), width='stretch')
     
     st.markdown("---")
     
@@ -353,7 +353,7 @@ with tab2:
     if st.session_state.prediction_history:
         st.markdown("### 📜 Prediction History")
         history_df = pd.DataFrame(st.session_state.prediction_history)
-        st.dataframe(history_df, use_container_width=True)
+        st.dataframe(history_df, width='stretch')
         
         # Download history
         csv_history = history_df.to_csv(index=False).encode('utf-8')

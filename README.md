@@ -63,18 +63,21 @@ Project ini membangun sistem deteksi fraud untuk transaksi kartu kredit dengan:
 
 ```
 fraud-detection/
-├── app.py                          # Streamlit dashboard
-├── training_model.py               # Script training model
-├── requirements.txt                # Dependencies
-├── README.md                       # Dokumentasi
-├── PRESENTATION_NOTES.md           # Catatan untuk presentasi
-├── prd_fraud_detection.md          # Product Requirements Document
+│  # Streamlit dashboard
+├── app.py
+│  # Script training model
+├── fraud_detection_rf.py
+│  # Dependencies
+├── requirements.txt
+│  # Dataset
 ├── data/
-│   └── credit_card_transactions2.csv   # Dataset
+│   └── credit_card_transactions2.csv
+│ # Trained model + preprocessors
 ├── models/
-│   └── fraud_detection_model.pkl   # Trained model + preprocessors
+│   └── fraud_detection_model.pkl
+│ # notebook training
 └── notebook/
-    └── Fraud_detection_RF.ipynb    # Jupyter notebook version
+    └── Fraud_detection_RF.ipynb
 ```
 
 ---
@@ -106,6 +109,7 @@ Download project ini atau extract dari file ZIP.
 ```bash
 # Windows
 python -m venv .venv
+
 # jika sudah install uv
 uv venv .venv # uv menginstall lebih cepat
 .venv\Scripts\activate
@@ -119,6 +123,7 @@ source .venv/bin/activate
 
 ```bash
 pip install -r requirements.txt
+
 # jika sudah install uv
 uv pip install -r requirements.txt
 ```
@@ -140,7 +145,7 @@ Pastikan semua package terinstall dengan benar.
 Jika ingin re-training model:
 
 ```bash
-python training_model.py
+python fraud_detection_rf.py
 ```
 
 **Output yang diharapkan:**
@@ -175,12 +180,83 @@ Atau buka melalui VS Code/JupyterLab.
 
 ---
 
+### Zip dan Ekstrak Project
+
+#### 🗜️ Compress Project ke ZIP
+
+Untuk membuat file ZIP dari project ini (misalnya untuk backup atau upload ke Colab), gunakan script yang sudah tersedia:
+
+**Di Terminal/Command Prompt:**
+
+```bash
+python zip-project.py
+```
+
+**Di Jupyter Notebook:**
+
+```python
+# Jalankan di cell Jupyter
+%run zip-project.py
+```
+
+Script akan membuat file `fraud-detection-project.zip` yang berisi seluruh project (kecuali folder `.venv`, `__pycache__`, dll).
+
+#### 📦 Extract Project dari ZIP
+
+Untuk extract file ZIP project:
+
+**Di Terminal/Command Prompt:**
+
+```bash
+python unzip-project.py
+```
+
+**Di Jupyter Notebook:**
+
+```python
+# Jalankan di cell Jupyter
+%run unzip-project.py
+```
+
+Script akan extract file ZIP ke folder yang sama dengan struktur aslinya.
+
+---
+
+### Upload Project ke Google Colab / Jupyter Server
+
+Jika Anda ingin menjalankan project ini di **Google Colab** atau **Jupyter Server online**, ikuti langkah berikut:
+
+#### Metode 1: Upload ZIP Manual
+
+1. **Compress project** menggunakan `zip-project.py` (lihat bagian di atas)
+2. Upload file `fraud-detection-project.zip` ke Google Colab
+3. Extract menggunakan `unzip-project.py` di cell Colab:
+
+```python
+# Di Google Colab, upload file ZIP terlebih dahulu
+from google.colab import files
+uploaded = files.upload()  # Pilih file fraud-detection-project.zip
+
+# Kemudian extract menggunakan script
+%run unzip-project.py
+
+# Pindah ke folder project
+%cd fraud-detection
+
+# Install dependencies
+!pip install -r requirements.txt
+```
+
+---
+
 ## 📝 Penggunaan
 
 ### Input Data Transaksi
 
 1. Buka dashboard Streamlit
+   ![alt text](image.png)
 2. Isi form di sidebar:
+
    - **Kategori Transaksi**: Jenis merchant (grocery_pos, gas_transport, dll)
    - **Jumlah Transaksi**: Nilai dalam USD ($0.01 - $100,000)
    - **Jenis Kelamin**: M (Male) / F (Female)
@@ -188,9 +264,14 @@ Atau buka melalui VS Code/JupyterLab.
    - **Umur**: 18-100 tahun
    - **Jam Transaksi**: 0-23 (format 24 jam)
    - **Akhir Pekan**: Centang jika Sabtu/Minggu
+
+     ![alt text](image-1.png)
+
 3. Klik tombol **"🔍 ANALISIS TRANSAKSI"**
 
 ### Membaca Hasil
+
+![alt text](image-2.png)
 
 - **✅ TRANSAKSI AMAN** (hijau): Transaksi tidak menunjukkan pola mencurigakan
 - **🚨 POTENSI FRAUD** (merah): Transaksi terindikasi fraud, perlu verifikasi
@@ -198,6 +279,8 @@ Atau buka melalui VS Code/JupyterLab.
 ---
 
 ## 📊 Model Performance
+
+![alt text](image-3.png)
 
 Model Random Forest yang digunakan telah mencapai performa tinggi dengan metrik berikut:
 
@@ -327,20 +410,3 @@ pip install --user -r requirements.txt
 - Weekend: Yes
 
 **Expected Result:** 🚨 POTENSI FRAUD (confidence > 70%)
-
----
-
-## 📄 Lisensi
-
-Project ini dibuat untuk keperluan tugas kuliah.
-
----
-
-## 👨‍💻 Author
-
-**Fraud Detection System v1.0**  
-Powered by Random Forest & Machine Learning
-
----
-
-_Terakhir diupdate: Januari 2026_
