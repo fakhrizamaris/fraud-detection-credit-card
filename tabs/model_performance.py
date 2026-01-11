@@ -77,7 +77,7 @@ def render(model, model_info, performance, feature_columns):
         
         # Show table
         st.markdown("#### Tabel Feature Importance")
-        st.dataframe(feature_imp_df.style.format({'Importance': '{:.4f}'}), use_container_width=True)
+        st.dataframe(feature_imp_df.style.format({'Importance': '{:.4f}'}), width='stretch')
     
     st.markdown("---")
     
@@ -85,7 +85,7 @@ def render(model, model_info, performance, feature_columns):
     if st.session_state.prediction_history:
         st.markdown("### Riwayat Prediksi")
         history_df = pd.DataFrame(st.session_state.prediction_history)
-        st.dataframe(history_df, use_container_width=True)
+        st.dataframe(history_df, width='stretch')
         
         # Download history
         csv_history = history_df.to_csv(index=False).encode('utf-8')

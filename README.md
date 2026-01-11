@@ -1,25 +1,24 @@
-# 🛡️ Fraud Detection System
+# Credit Card Fraud Analysis
 
-Sistem deteksi fraud untuk transaksi kartu kredit menggunakan **Machine Learning (Random Forest)** dengan interface web yang user-friendly.
+Sistem deteksi fraud untuk transaksi kartu kredit menggunakan **Machine Learning (Random Forest)** dengan interface web interaktif berbasis Streamlit.
 
 ---
 
-## 📋 Daftar Isi
+## Daftar Isi
 
 - [Tentang Project](#tentang-project)
-- [Fitur](#fitur)
+- [Fitur Aplikasi](#fitur-aplikasi)
 - [Struktur Project](#struktur-project)
 - [Prerequisites](#prerequisites)
 - [Instalasi](#instalasi)
 - [Cara Menjalankan](#cara-menjalankan)
 - [Penggunaan](#penggunaan)
 - [Model Performance](#model-performance)
-- [Presentation Notes](#presentation-notes)
 - [Troubleshooting](#troubleshooting)
 
 ---
 
-## 📖 Tentang Project
+## Tentang Project
 
 Project ini membangun sistem deteksi fraud untuk transaksi kartu kredit dengan:
 
@@ -27,10 +26,22 @@ Project ini membangun sistem deteksi fraud untuk transaksi kartu kredit dengan:
 - **Dataset**: 14.000 transaksi (balanced: 50% fraud, 50% not fraud)
 - **Akurasi Target**: Minimal 85%
 - **Recall Target**: Minimal 80% (prioritas deteksi fraud)
+- **Bahasa Interface**: Indonesia (dengan istilah teknis dalam bahasa Inggris)
 
 ---
 
-## ✨ Fitur
+## Fitur Aplikasi
+
+### Tab-Tab Dashboard
+
+| Tab                   | Deskripsi                                                           |
+| --------------------- | ------------------------------------------------------------------- |
+| **About Dataset**     | Informasi latar belakang, dataset, metodologi, dan manfaat sistem   |
+| **Dashboard**         | Eksplorasi data historis dengan visualisasi EDA lengkap             |
+| **Fraud Detection**   | Form input transaksi dan hasil analisis prediksi fraud              |
+| **Machine Learning**  | Penjelasan pipeline training model (preprocessing, SMOTE, training) |
+| **Model Performance** | Dashboard evaluasi performa model dan feature importance            |
+| **Contact Me**        | Informasi profil pengembang dan kontak                              |
 
 ### Feature Engineering
 
@@ -41,48 +52,56 @@ Project ini membangun sistem deteksi fraud untuk transaksi kartu kredit dengan:
 
 ### Model Evaluation Metrics
 
-- ✅ Accuracy
-- ✅ Precision
-- ✅ Recall (PRIORITY)
-- ✅ F1-Score
-- ✅ ROC-AUC Score
-- ✅ Confusion Matrix
+- Accuracy
+- Precision
+- Recall (PRIORITY)
+- F1-Score
+- ROC-AUC Score
+- Confusion Matrix
 
-### Web Dashboard (Streamlit)
+### Fitur Dashboard
 
-- 📝 Form input untuk detail transaksi
-- 📊 Hasil prediksi dengan confidence level
-- 🎯 Analisis faktor risiko
-- 💡 Rekomendasi tindakan
-- 📈 Model Performance Dashboard
-- 📥 Download hasil prediksi
+- Form input untuk detail transaksi
+- Hasil prediksi dengan confidence level
+- Kategori risiko (Amount, Time, Age, Day Type)
+- Analisis faktor risiko
+- Rekomendasi tindakan
+- Download hasil prediksi (CSV)
+- Visualisasi EDA interaktif
+- Correlation heatmap
 
 ---
 
-## 📁 Struktur Project
+## Struktur Project
 
 ```
 fraud-detection/
-│  # Streamlit dashboard
-├── app.py
-│  # Script training model
-├── fraud_detection_rf.py
-│  # Dependencies
-├── requirements.txt
-│  # Dataset
+├── app.py                    # Main Streamlit application
+├── fraud_detection_rf.py     # Script training model
+├── requirements.txt          # Python dependencies
+├── README.md                 # Dokumentasi ini
+│
 ├── data/
-│   └── credit_card_transactions2.csv
-│ # Trained model + preprocessors
+│   └── credit_card_transactions2.csv    # Dataset
+│
 ├── models/
-│   └── fraud_detection_model.pkl
-│ # notebook training
+│   └── fraud_detection_model.pkl        # Trained model + preprocessors
+│
+├── tabs/                     # Modul tab Streamlit
+│   ├── about_dataset.py      # Tab About Dataset
+│   ├── dashboard.py          # Tab Dashboard (EDA)
+│   ├── fraud_detection.py    # Tab Fraud Detection
+│   ├── machine_learning.py   # Tab Machine Learning
+│   ├── model_performance.py  # Tab Model Performance
+│   └── contact_me.py         # Tab Contact Me
+│
 └── notebook/
-    └── Fraud_detection_RF.ipynb
+    └── Fraud_detection_RF.ipynb    # Jupyter Notebook training
 ```
 
 ---
 
-## 💻 Prerequisites
+## Prerequisites
 
 Pastikan Anda sudah menginstall:
 
@@ -98,7 +117,7 @@ python --version
 
 ---
 
-## 🚀 Instalasi
+## Instalasi
 
 ### Langkah 1: Clone/Download Project
 
@@ -109,9 +128,6 @@ Download project ini atau extract dari file ZIP.
 ```bash
 # Windows
 python -m venv .venv
-
-# jika sudah install uv
-uv venv .venv # uv menginstall lebih cepat
 .venv\Scripts\activate
 
 # macOS/Linux
@@ -123,9 +139,6 @@ source .venv/bin/activate
 
 ```bash
 pip install -r requirements.txt
-
-# jika sudah install uv
-uv pip install -r requirements.txt
 ```
 
 ### Langkah 4: Verifikasi Instalasi
@@ -138,7 +151,7 @@ Pastikan semua package terinstall dengan benar.
 
 ---
 
-## ▶️ Cara Menjalankan
+## Cara Menjalankan
 
 ### Menjalankan Training Model (Opsional)
 
@@ -180,107 +193,83 @@ Atau buka melalui VS Code/JupyterLab.
 
 ---
 
-### Zip dan Ekstrak Project
+## Penggunaan
 
-#### 🗜️ Compress Project ke ZIP
+### Tab About Dataset
 
-Untuk membuat file ZIP dari project ini (misalnya untuk backup atau upload ke Colab), gunakan script yang sudah tersedia:
+Berisi informasi tentang:
 
-**Di Terminal/Command Prompt:**
+- Latar belakang fraud kartu kredit
+- Fitur-fitur dalam dataset
+- Metodologi machine learning yang digunakan
+- Manfaat sistem deteksi fraud
 
-```bash
-python zip-project.py
-```
+### Tab Dashboard
 
-**Di Jupyter Notebook:**
+Eksplorasi data historis dengan visualisasi lengkap:
 
-```python
-# Jalankan di cell Jupyter
-%run zip-project.py
-```
+1. Overview Dataset (jumlah transaksi, fraud rate, dll)
+2. Pemeriksaan Kualitas Data (missing values, data types)
+3. Deteksi Outlier (box plot Amount dan Age)
+4. Normalisasi Data (perbandingan sebelum/sesudah)
+5. EDA - Distribusi Kategorikal (gender, kategori, jam, weekend)
+6. EDA - Distribusi Numerik (usia, amount)
+7. Analisis Pola Fraud (fraud per kategori, fraud per jam)
+8. Analisis Korelasi (heatmap)
 
-Script akan membuat file `fraud-detection-project.zip` yang berisi seluruh project (kecuali folder `.venv`, `__pycache__`, dll).
+### Tab Fraud Detection
 
-#### 📦 Extract Project dari ZIP
-
-Untuk extract file ZIP project:
-
-**Di Terminal/Command Prompt:**
-
-```bash
-python unzip-project.py
-```
-
-**Di Jupyter Notebook:**
-
-```python
-# Jalankan di cell Jupyter
-%run unzip-project.py
-```
-
-Script akan extract file ZIP ke folder yang sama dengan struktur aslinya.
-
----
-
-### Upload Project ke Google Colab / Jupyter Server
-
-Jika Anda ingin menjalankan project ini di **Google Colab** atau **Jupyter Server online**, ikuti langkah berikut:
-
-#### Metode 1: Upload ZIP Manual
-
-1. **Compress project** menggunakan `zip-project.py` (lihat bagian di atas)
-2. Upload file `fraud-detection-project.zip` ke Google Colab
-3. Extract menggunakan `unzip-project.py` di cell Colab:
-
-```python
-# Di Google Colab, upload file ZIP terlebih dahulu
-from google.colab import files
-uploaded = files.upload()  # Pilih file fraud-detection-project.zip
-
-# Kemudian extract menggunakan script
-%run unzip-project.py
-
-# Pindah ke folder project
-%cd fraud-detection
-
-# Install dependencies
-!pip install -r requirements.txt
-```
-
----
-
-## 📝 Penggunaan
-
-### Input Data Transaksi
-
-1. Buka dashboard Streamlit
-   ![alt text](image.png)
-2. Isi form di sidebar:
+1. Isi form di sidebar:
 
    - **Kategori Transaksi**: Jenis merchant (grocery_pos, gas_transport, dll)
    - **Jumlah Transaksi**: Nilai dalam USD ($0.01 - $100,000)
-   - **Jenis Kelamin**: M (Male) / F (Female)
+   - **Jenis Kelamin**: Laki-laki / Perempuan
    - **Negara Bagian**: Lokasi transaksi (TX, NY, CA, dll)
-   - **Umur**: 18-100 tahun
+   - **Usia**: 18-100 tahun
    - **Jam Transaksi**: 0-23 (format 24 jam)
    - **Akhir Pekan**: Centang jika Sabtu/Minggu
 
-     ![alt text](image-1.png)
+2. Klik tombol **"ANALISIS TRANSAKSI"**
 
-3. Klik tombol **"🔍 ANALISIS TRANSAKSI"**
+3. Lihat hasil:
+   - **Kategori Risiko**: Amount Risk, Time Risk, Age Group, Day Type
+   - **Hasil Prediksi**: TRANSAKSI AMAN atau POTENSI FRAUD TERDETEKSI
+   - **Distribusi Probabilitas**: Pie chart dan detail
+   - **Faktor Analisis**: Faktor yang mempengaruhi hasil
+   - **Unduh Hasil**: Download CSV
 
-### Membaca Hasil
+### Tab Machine Learning
 
-![alt text](image-2.png)
+Penjelasan pipeline training model:
 
-- **✅ TRANSAKSI AMAN** (hijau): Transaksi tidak menunjukkan pola mencurigakan
-- **🚨 POTENSI FRAUD** (merah): Transaksi terindikasi fraud, perlu verifikasi
+1. Data Preprocessing (missing values, feature engineering, encoding)
+2. Penanganan Class Imbalance (SMOTE)
+3. Training Model (Random Forest hyperparameters)
+4. Feature Importance
+
+### Tab Model Performance
+
+Dashboard evaluasi model:
+
+- Informasi Model (algoritma, n_estimators, max_depth)
+- Metrik Performa (Accuracy, Recall, Precision, F1-Score, ROC-AUC)
+- Feature Importance (bar chart dan tabel)
+- Riwayat Prediksi (history dengan download)
+
+### Tab Contact Me
+
+Informasi profil pengembang:
+
+- Data penulis
+- Detail kontak
+- Latar belakang akademik
+- Minat penelitian
+- Tentang proyek
+- Ucapan terima kasih
 
 ---
 
-## 📊 Model Performance
-
-![alt text](image-3.png)
+## Model Performance
 
 Model Random Forest yang digunakan telah mencapai performa tinggi dengan metrik berikut:
 
@@ -306,22 +295,7 @@ Model Random Forest yang digunakan telah mencapai performa tinggi dengan metrik 
 
 ---
 
-## 📝 Presentation Notes
-
-Untuk catatan lengkap presentasi (penjelasan performa, fitur penting, dan FAQ), silakan baca:
-
-**[📄 PRESENTATION_NOTES.md](PRESENTATION_NOTES.md)**
-
-File tersebut berisi:
-
-- Penjelasan detail metrik model
-- Alasan mengapa akurasi tinggi (dataset balanced vs real-world)
-- Pipeline training step-by-step
-- Key features yang menjadi predictor kuat
-
----
-
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### 1. Error: "Model belum di-training!"
 
@@ -330,7 +304,7 @@ File tersebut berisi:
 **Solusi:**
 
 ```bash
-python training_model.py
+python fraud_detection_rf.py
 ```
 
 ### 2. Error: ModuleNotFoundError
@@ -353,7 +327,7 @@ pip install -r requirements.txt
 pip install scikit-learn==1.3.0
 ```
 
-### 4. Streamlit tidak terbu\*\* di browser
+### 4. Streamlit tidak terbuka di browser
 
 **Penyebab:** Port 8501 sudah digunakan
 
@@ -385,28 +359,43 @@ pip install --user -r requirements.txt
 
 ---
 
-## 📊 Contoh Test Case
+## Contoh Test Case
 
 ### Test Case 1: Transaksi Aman
 
 - Category: `grocery_pos`
 - Amount: $50
-- Gender: F
+- Gender: Perempuan
 - State: TX
 - Age: 35
 - Hour: 14
 - Weekend: No
 
-**Expected Result:** ✅ TRANSAKSI AMAN (confidence > 80%)
+**Expected Result:** TRANSAKSI AMAN (confidence > 80%)
 
 ### Test Case 2: Transaksi Mencurigakan
 
 - Category: `gas_transport`
 - Amount: $1,500
-- Gender: M
+- Gender: Laki-laki
 - State: NY
 - Age: 25
 - Hour: 3
 - Weekend: Yes
 
-**Expected Result:** 🚨 POTENSI FRAUD (confidence > 70%)
+**Expected Result:** POTENSI FRAUD TERDETEKSI (confidence > 70%)
+
+---
+
+## Teknologi yang Digunakan
+
+- **Python 3.12**
+- **Streamlit** - Web Framework
+- **Scikit-learn** - Machine Learning
+- **Pandas & NumPy** - Data Processing
+- **Altair & Matplotlib** - Visualization
+- **Imbalanced-learn** - SMOTE for class balancing
+
+---
+
+_Credit Card Fraud Analysis System - Dikembangkan untuk tujuan akademik_

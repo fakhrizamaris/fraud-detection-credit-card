@@ -388,7 +388,7 @@ def render(load_data_func):
                 y=alt.Y('amt:Q', title='Amount (USD)'),
                 tooltip=['age_group', 'amt']
             ).properties(height=350, title='Normal Transactions')
-            st.altair_chart(box_normal, use_container_width=True)
+            st.altair_chart(box_normal, width='stretch')
         
         with col2:
             # Fraud transactions box plot
@@ -398,7 +398,7 @@ def render(load_data_func):
                 y=alt.Y('amt:Q', title='Amount (USD)'),
                 tooltip=['age_group', 'amt']
             ).properties(height=350, title='Fraud Transactions')
-            st.altair_chart(box_fraud, use_container_width=True)
+            st.altair_chart(box_fraud, width='stretch')
         
         st.markdown("""
         **Insight:**

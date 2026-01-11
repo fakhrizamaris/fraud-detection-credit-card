@@ -101,7 +101,7 @@ def render(model, feature_columns, load_data_func):
                 )),
                 tooltip=['Class', 'Count']
             ).properties(height=250, title='Distribusi Kelas (Sebelum SMOTE)')
-            st.altair_chart(pie_class, use_container_width=True)
+            st.altair_chart(pie_class, width='stretch')
         except:
             st.info("Dataset tidak tersedia untuk visualisasi")
     
@@ -137,7 +137,7 @@ def render(model, feature_columns, load_data_func):
             )),
             tooltip=['Class', 'Count']
         ).properties(height=250, title='Distribusi Kelas (Setelah SMOTE)')
-        st.altair_chart(pie_balanced, use_container_width=True)
+        st.altair_chart(pie_balanced, width='stretch')
     
     st.markdown("---")
     
@@ -210,7 +210,7 @@ model = RandomForestClassifier(
             color=alt.Color('Importance:Q', scale=alt.Scale(scheme='blues'), legend=None),
             tooltip=['Feature', alt.Tooltip('Importance:Q', format='.4f')]
         ).properties(height=300, title='Feature Importance - Random Forest')
-        st.altair_chart(importance_chart, use_container_width=True)
+        st.altair_chart(importance_chart, width='stretch')
         
         st.markdown("""
         **Interpretasi:**

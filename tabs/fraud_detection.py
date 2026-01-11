@@ -117,7 +117,7 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
     st.sidebar.markdown("---")
     
     # PREDIKSI
-    analyze_clicked = st.sidebar.button("ANALISIS TRANSAKSI", type="primary", use_container_width=True)
+    analyze_clicked = st.sidebar.button("ANALISIS TRANSAKSI", type="primary", width='stretch')
     
     if analyze_clicked:
         
@@ -374,7 +374,7 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
             data=csv,
             file_name=f'fraud_prediction_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv',
             mime='text/csv',
-            use_container_width=True
+            width='stretch'
         )
     
     else:
@@ -437,5 +437,5 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
         if st.session_state.prediction_history:
             st.markdown("### Prediksi Terakhir")
             history_df = pd.DataFrame(st.session_state.prediction_history[-5:])  # Last 5
-            st.dataframe(history_df, use_container_width=True)
+            st.dataframe(history_df, width='stretch')
 
