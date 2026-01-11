@@ -116,9 +116,7 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
     
     st.sidebar.markdown("---")
     
-    # ========================================
     # PREDICTION
-    # ========================================
     analyze_clicked = st.sidebar.button("🔍 ANALYZE TRANSACTION", type="primary", use_container_width=True)
     
     if analyze_clicked:
@@ -186,28 +184,36 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
         # ========================================
         # RISK CATEGORY BADGES
         # ========================================
-        st.markdown("### 🏷️ Risk Categories")
+        st.markdown("### Risk Categories")
         badge_col1, badge_col2, badge_col3, badge_col4 = st.columns(4)
+        
+        # Professional color palette
+        color_low = "#2d5a3d"      # Muted green
+        color_medium = "#7a6c3e"   # Muted gold/brown
+        color_high = "#8b5a3c"     # Muted orange/brown
+        color_critical = "#6b3a3a" # Muted red/maroon
+        color_neutral = "#4a5568"  # Slate gray
         
         # Amount Category
         with badge_col1:
             if amt < 50:
                 amt_cat = "Low"
-                color = "#4CAF50"
+                bg_color = color_low
             elif amt < 200:
                 amt_cat = "Medium"
-                color = "#FFC107"
+                bg_color = color_medium
             elif amt < 500:
                 amt_cat = "High"
-                color = "#FF9800"
+                bg_color = color_high
             else:
                 amt_cat = "Very High"
-                color = "#F44336"
+                bg_color = color_critical
             st.markdown(
                 f"""
-                <div style="background:{color}; padding:12px; border-radius:10px; text-align:center; color:#fff;">
-                    <div style="font-size:12px;">💰 Amount Risk</div>
-                    <div style="font-size:18px;font-weight:bold;">{amt_cat}</div>
+                <div style="background:{bg_color}; padding:15px; border-radius:8px; text-align:center; 
+                            border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size:11px; color:#ccc; text-transform:uppercase; letter-spacing:1px;">Amount Risk</div>
+                    <div style="font-size:16px; font-weight:600; color:#fff; margin-top:5px;">{amt_cat}</div>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -216,19 +222,20 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
         # Time Category
         with badge_col2:
             if 6 <= hour <= 22:
-                time_cat = "Normal Hours"
-                color = "#4CAF50"
+                time_cat = "Normal"
+                bg_color = color_low
             elif 22 < hour or hour < 2:
                 time_cat = "Late Night"
-                color = "#FF9800"
+                bg_color = color_high
             else:
                 time_cat = "Early Morning"
-                color = "#F44336"
+                bg_color = color_medium
             st.markdown(
                 f"""
-                <div style="background:{color}; padding:12px; border-radius:10px; text-align:center; color:#fff;">
-                    <div style="font-size:12px;">🕐 Time Risk</div>
-                    <div style="font-size:18px;font-weight:bold;">{time_cat}</div>
+                <div style="background:{bg_color}; padding:15px; border-radius:8px; text-align:center;
+                            border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size:11px; color:#ccc; text-transform:uppercase; letter-spacing:1px;">Time Risk</div>
+                    <div style="font-size:16px; font-weight:600; color:#fff; margin-top:5px;">{time_cat}</div>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -238,21 +245,22 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
         with badge_col3:
             if age < 25:
                 age_cat = "Young Adult"
-                color = "#2196F3"
+                bg_color = color_neutral
             elif age < 40:
                 age_cat = "Adult"
-                color = "#4CAF50"
+                bg_color = color_neutral
             elif age < 60:
                 age_cat = "Middle Age"
-                color = "#FFC107"
+                bg_color = color_neutral
             else:
                 age_cat = "Senior"
-                color = "#9C27B0"
+                bg_color = color_neutral
             st.markdown(
                 f"""
-                <div style="background:{color}; padding:12px; border-radius:10px; text-align:center; color:#fff;">
-                    <div style="font-size:12px;">👤 Age Group</div>
-                    <div style="font-size:18px;font-weight:bold;">{age_cat}</div>
+                <div style="background:{bg_color}; padding:15px; border-radius:8px; text-align:center;
+                            border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size:11px; color:#ccc; text-transform:uppercase; letter-spacing:1px;">Age Group</div>
+                    <div style="font-size:16px; font-weight:600; color:#fff; margin-top:5px;">{age_cat}</div>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -262,15 +270,16 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
         with badge_col4:
             if is_weekend:
                 weekend_cat = "Weekend"
-                color = "#FF9800"
+                bg_color = color_medium
             else:
                 weekend_cat = "Weekday"
-                color = "#4CAF50"
+                bg_color = color_low
             st.markdown(
                 f"""
-                <div style="background:{color}; padding:12px; border-radius:10px; text-align:center; color:#fff;">
-                    <div style="font-size:12px;">📅 Day Type</div>
-                    <div style="font-size:18px;font-weight:bold;">{weekend_cat}</div>
+                <div style="background:{bg_color}; padding:15px; border-radius:8px; text-align:center;
+                            border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size:11px; color:#ccc; text-transform:uppercase; letter-spacing:1px;">Day Type</div>
+                    <div style="font-size:16px; font-weight:600; color:#fff; margin-top:5px;">{weekend_cat}</div>
                 </div>
                 """,
                 unsafe_allow_html=True
