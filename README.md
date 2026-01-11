@@ -76,27 +76,30 @@ Project ini membangun sistem deteksi fraud untuk transaksi kartu kredit dengan:
 
 ```
 fraud-detection/
-├── app.py                    # Main Streamlit application
-├── fraud_detection_rf.py     # Script training model
-├── requirements.txt          # Python dependencies
-├── README.md                 # Dokumentasi ini
+├── app.py       # Main Streamlit application
 │
-├── data/
-│   └── credit_card_transactions2.csv    # Dataset
+│  # Script training model
+├── fraud_detection_rf.py 
+├── requirements.txt    # Python dependencies
+├── README.md               # Dokumentasi 
+│
+│  # Dataset
+├── data/ 
+│   └── credit_card_transactions2.csv 
 │
 ├── models/
-│   └── fraud_detection_model.pkl        # Trained model + preprocessors
+│   └── fraud_detection_model.pkl        
 │
-├── tabs/                     # Modul tab Streamlit
-│   ├── about_dataset.py      # Tab About Dataset
-│   ├── dashboard.py          # Tab Dashboard (EDA)
-│   ├── fraud_detection.py    # Tab Fraud Detection
-│   ├── machine_learning.py   # Tab Machine Learning
-│   ├── model_performance.py  # Tab Model Performance
-│   └── contact_me.py         # Tab Contact Me
+├── tabs/              # Modul tab Streamlit
+│   ├── about_dataset.py  
+│   ├── dashboard.py    
+│   ├── fraud_detection.py 
+│   ├── machine_learning.py   
+│   ├── model_performance.py 
+│   └── contact_me.py         
 │
 └── notebook/
-    └── Fraud_detection_RF.ipynb    # Jupyter Notebook training
+    └── Fraud_detection_RF.ipynb    
 ```
 
 ---
