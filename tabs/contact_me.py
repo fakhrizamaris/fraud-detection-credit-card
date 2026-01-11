@@ -110,14 +110,3 @@ def render():
     - [University/Institution Name] for providing resources
     - The open-source community for excellent tools and libraries
     """)
-    
-    st.markdown("---")
-    
-    # Footer
-    st.markdown(
-        "<div style='text-align: center; color: gray; font-size: 12px;'>"
-        "© 2024 | Credit Card Fraud Detection System<br>"
-        "Developed for Academic Purposes"
-        "</div>",
-        unsafe_allow_html=True
-    )
