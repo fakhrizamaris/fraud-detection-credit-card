@@ -14,7 +14,7 @@ def render(load_data_func):
     Args:
         load_data_func: Function to load dataset
     """
-    st.title("📈 Data Insights Dashboard")
+    st.title("Data Insights Dashboard")
     st.markdown("### Historical Data Exploration & In-Depth Analysis")
     st.markdown("---")
     

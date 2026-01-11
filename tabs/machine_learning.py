@@ -15,7 +15,7 @@ def render(model, feature_columns, load_data_func):
         feature_columns: List of feature column names
         load_data_func: Function to load dataset
     """
-    st.title("🤖 Machine Learning Pipeline")
+    st.title("Machine Learning Pipeline")
     st.markdown("### Fraud Detection Model Training Process")
     st.markdown("---")
     

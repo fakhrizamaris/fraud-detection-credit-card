@@ -6,7 +6,7 @@ import streamlit as st
 
 def render():
     """Render tab About Dataset"""
-    st.title("📖 About Dataset & Fraud Detection")
+    st.title("About Dataset & Fraud Detection")
     st.markdown("---")
     
     col1, col2 = st.columns([1, 1])

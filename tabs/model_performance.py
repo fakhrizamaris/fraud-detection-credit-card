@@ -17,7 +17,7 @@ def render(model, model_info, performance, feature_columns):
         performance: Dict containing performance metrics
         feature_columns: List of feature column names
     """
-    st.title("📊 Model Performance Dashboard")
+    st.title("Model Performance Dashboard")
     st.markdown("### Random Forest Model Evaluation")
     st.markdown("---")
     

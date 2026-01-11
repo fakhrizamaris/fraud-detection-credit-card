@@ -18,7 +18,7 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
         feature_columns: List of feature column names
         numerical_cols: List of numerical column names
     """
-    st.title("🛡️ Fraud Detection System")
+    st.title("Fraud Detection System")
     st.markdown("### Early Warning System for Suspicious Transaction Detection")
     st.markdown("---")
     
