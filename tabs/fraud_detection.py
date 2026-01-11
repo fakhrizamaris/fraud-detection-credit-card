@@ -1,5 +1,5 @@
 """
-Fraud Detection Tab - Form input dan prediksi fraud
+Fraud Detection Tab - Input form and fraud prediction
 """
 import streamlit as st
 import pandas as pd
@@ -19,59 +19,56 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
         numerical_cols: List of numerical column names
     """
     st.title("🛡️ Fraud Detection System")
-    st.markdown("### Early Warning System untuk Deteksi Transaksi Mencurigakan")
+    st.markdown("### Early Warning System for Suspicious Transaction Detection")
     st.markdown("---")
     
     # ========================================
     # SIDEBAR - INPUT FORM
     # ========================================
-    st.sidebar.header("📝 Input Data Transaksi")
-    st.sidebar.markdown("Masukkan detail transaksi untuk analisis:")
+    st.sidebar.header("📝 Transaction Input")
+    st.sidebar.markdown("Enter transaction details for analysis:")
     
     # Input Category
     category_options = list(label_encoders['category'].classes_)
     
     def format_category(cat_name):
-        # Mengubah 'grocery_pos' menjadi 'Grocery Pos'
         return cat_name.replace('_', ' ').title()
     
     category = st.sidebar.selectbox(
-        "Kategori Transaksi",
+        "Transaction Category",
         options=category_options,
         format_func=format_category,
-        help="Jenis merchant/toko tempat transaksi"
+        help="Type of merchant/store"
     )
     
     # Input Amount
     amt = st.sidebar.number_input(
-        "Jumlah Transaksi (USD)",
+        "Transaction Amount (USD)",
         min_value=0.01,
         max_value=100000.0,
         value=50.0,
         step=10.0,
-        help="Total nilai transaksi dalam Dollar"
+        help="Total transaction value in USD"
     )
     
     # Input Gender
     gender_options = list(label_encoders['gender'].classes_)
     
-    # Mapping untuk tampilan user-friendly
     gender_map = {
-        'M': 'Laki-laki (Male)',
-        'F': 'Perempuan (Female)'
+        'M': 'Male',
+        'F': 'Female'
     }
     
     gender = st.sidebar.selectbox(
-        "Jenis Kelamin",
+        "Gender",
         options=gender_options,
         format_func=lambda x: gender_map.get(x, x),
-        help="Pilih jenis kelamin pemegang kartu"
+        help="Cardholder's gender"
     )
     
     # Input State
     state_options = list(label_encoders['state'].classes_)
     
-    # Mapping State Code ke Nama Lengkap
     us_state_map = {
         'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California',
         'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia',
@@ -86,43 +83,45 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
     }
     
     state = st.sidebar.selectbox(
-        "Negara Bagian",
+        "State",
         options=state_options,
         format_func=lambda x: f"{x} - {us_state_map.get(x, x)}" if x in us_state_map else x,
-        help="Lokasi transaksi dilakukan"
+        help="Transaction location"
     )
     
     # Input Age
     age = st.sidebar.slider(
-        "Umur Pemegang Kartu",
+        "Cardholder Age",
         min_value=18,
         max_value=100,
         value=35,
-        help="Umur user saat transaksi"
+        help="Age of cardholder"
     )
     
     # Input Hour
     hour = st.sidebar.slider(
-        "Jam Transaksi",
+        "Transaction Hour",
         min_value=0,
         max_value=23,
         value=14,
-        help="Jam transaksi dilakukan (format 24 jam)"
+        help="Hour when transaction occurred (24-hour format)"
     )
     
     # Input Weekend
     is_weekend = st.sidebar.checkbox(
-        "Transaksi di Akhir Pekan?",
+        "Weekend Transaction?",
         value=False,
-        help="Centang jika transaksi dilakukan Sabtu/Minggu"
+        help="Check if transaction was on Saturday/Sunday"
     )
     
     st.sidebar.markdown("---")
     
     # ========================================
-    # PREDIKSI
+    # PREDICTION
     # ========================================
-    if st.sidebar.button("🔍 ANALISIS TRANSAKSI", type="primary", width='stretch'):
+    analyze_clicked = st.sidebar.button("🔍 ANALYZE TRANSACTION", type="primary", use_container_width=True)
+    
+    if analyze_clicked:
         
         # Prepare input data
         amt_per_hour_ratio = amt / (hour + 1)
@@ -132,7 +131,7 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
         gender_encoded = label_encoders['gender'].transform([gender])[0]
         state_encoded = label_encoders['state'].transform([state])[0]
         
-        # Buat dataframe
+        # Create dataframe
         input_data = pd.DataFrame({
             'category': [category_encoded],
             'amt': [amt],
@@ -150,7 +149,7 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
         # Scaling
         input_data[numerical_cols] = scaler.transform(input_data[numerical_cols])
         
-        # Prediksi
+        # Prediction
         prediction = model.predict(input_data)[0]
         prediction_proba = model.predict_proba(input_data)[0]
         
@@ -171,23 +170,23 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
         st.session_state.prediction_history.append(prediction_record)
         
         # ========================================
-        # TAMPILKAN HASIL
+        # DISPLAY RESULTS
         # ========================================
-        st.markdown("## 📊 Hasil Analisis")
+        st.markdown("## 📊 Analysis Results")
         
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.metric("Jumlah Transaksi", f"${amt:,.2f}")
+            st.metric("Transaction Amount", f"${amt:,.2f}")
         with col2:
-            st.metric("Jam Transaksi", f"{hour}:00")
+            st.metric("Transaction Hour", f"{hour}:00")
         with col3:
-            st.metric("Lokasi", state)
+            st.metric("Location", state)
         
         # ========================================
         # RISK CATEGORY BADGES
         # ========================================
-        st.markdown("### 🏷️ Kategori Risiko")
+        st.markdown("### 🏷️ Risk Categories")
         badge_col1, badge_col2, badge_col3, badge_col4 = st.columns(4)
         
         # Amount Category
@@ -280,26 +279,26 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
         st.markdown("")
         st.markdown("---")
         
-        # Output prediksi
+        # Prediction output
         if prediction == 0:
-            st.success("### ✅ TRANSAKSI AMAN")
+            st.success("### ✅ TRANSACTION SAFE")
             st.markdown(f"**Confidence Level:** {confidence:.2f}%")
-            st.info("💡 Transaksi ini tidak menunjukkan pola mencurigakan. Dapat diproses dengan normal.")
+            st.info("💡 This transaction shows no suspicious patterns. Can be processed normally.")
             
         else:
-            st.error("### 🚨 POTENSI INDIKASI FRAUD TERDETEKSI!")
-            st.markdown(f"**Tingkat Keyakinan:** {confidence:.2f}%")
-            st.warning("⚠️ **TINDAKAN YANG DISARANKAN:**")
+            st.error("### 🚨 POTENTIAL FRAUD DETECTED!")
+            st.markdown(f"**Confidence Level:** {confidence:.2f}%")
+            st.warning("⚠️ **RECOMMENDED ACTIONS:**")
             st.markdown("""
-            - Lakukan verifikasi tambahan dengan pemegang kartu
-            - Periksa histori transaksi sebelumnya
-            - Aktifkan notifikasi ke tim fraud prevention
-            - Jangan proses transaksi tanpa konfirmasi
+            - Perform additional verification with cardholder
+            - Review previous transaction history
+            - Alert fraud prevention team
+            - Do not process transaction without confirmation
             """)
         
         # Pie Chart Visualization
         st.markdown("---")
-        st.markdown("### 📈 Distribusi Probabilitas")
+        st.markdown("### 📈 Probability Distribution")
         
         viz_col1, viz_col2 = st.columns([1, 1])
         
@@ -321,10 +320,10 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
             plt.close()
         
         with viz_col2:
-            st.markdown("#### 📋 Detail Probabilitas")
-            st.metric("Probabilitas AMAN", f"{prediction_proba[0]*100:.2f}%", 
+            st.markdown("#### 📋 Probability Details")
+            st.metric("Safe Probability", f"{prediction_proba[0]*100:.2f}%", 
                      delta=f"{prediction_proba[0]*100 - 50:.1f}%" if prediction_proba[0] > 0.5 else None)
-            st.metric("Probabilitas FRAUD", f"{prediction_proba[1]*100:.2f}%",
+            st.metric("Fraud Probability", f"{prediction_proba[1]*100:.2f}%",
                      delta=f"{prediction_proba[1]*100 - 50:.1f}%" if prediction_proba[1] > 0.5 else None,
                      delta_color="inverse")
             
@@ -332,39 +331,102 @@ def render(model, scaler, label_encoders, feature_columns, numerical_cols):
             st.markdown("**Risk Level:**")
             st.progress(prediction_proba[1])
         
-        # Faktor risiko
+        # Risk factors
         st.markdown("---")
-        st.markdown("### 🎯 Faktor Analisis")
+        st.markdown("### 🎯 Analysis Factors")
         
         risk_factors = []
         if amt > 500:
-            risk_factors.append("💰 Transaksi bernilai tinggi (>$500)")
+            risk_factors.append("💰 High-value transaction (>$500)")
         if hour < 6 or hour > 22:
-            risk_factors.append("🌙 Transaksi di jam tidak biasa (tengah malam/dini hari)")
+            risk_factors.append("🌙 Unusual transaction hour (midnight/early morning)")
         if is_weekend:
-            risk_factors.append("📅 Transaksi di akhir pekan")
+            risk_factors.append("📅 Weekend transaction")
         if category in ['gas_transport', 'misc_net', 'shopping_net']:
-            risk_factors.append("🏪 Kategori dengan risiko fraud lebih tinggi")
+            risk_factors.append("🏪 Higher-risk fraud category")
         
         if risk_factors:
-            st.warning("**Faktor yang mempengaruhi analisis:**")
+            st.warning("**Factors influencing analysis:**")
             for factor in risk_factors:
                 st.markdown(f"- {factor}")
         else:
-            st.info("✅ Tidak ada faktor risiko signifikan terdeteksi")
+            st.info("✅ No significant risk factors detected")
         
         # Download section
         st.markdown("---")
-        st.markdown("### 📥 Download Hasil")
+        st.markdown("### 📥 Download Results")
         
         # Prepare download data
         download_data = pd.DataFrame([prediction_record])
         csv = download_data.to_csv(index=False).encode('utf-8')
         
         st.download_button(
-            label="💾 Download Hasil Prediksi (CSV)",
+            label="💾 Download Prediction Results (CSV)",
             data=csv,
             file_name=f'fraud_prediction_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv',
             mime='text/csv',
-            width='stretch'
+            use_container_width=True
         )
+    
+    else:
+        # ========================================
+        # INSTRUCTIONS (shown before analysis)
+        # ========================================
+        st.info("👈 **Please fill in the transaction details in the sidebar and click 'ANALYZE TRANSACTION' to start the analysis.**")
+        
+        st.markdown("---")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("""
+            ### 📋 How to Use
+            
+            **Step 1:** Enter transaction details in the **sidebar** on the left:
+            - Select transaction category
+            - Enter transaction amount (USD)
+            - Choose cardholder gender
+            - Select US state location
+            - Set cardholder age
+            - Set transaction hour
+            - Check if it's a weekend transaction
+            
+            **Step 2:** Click the **"🔍 ANALYZE TRANSACTION"** button
+            
+            **Step 3:** Review the analysis results including:
+            - Risk category badges
+            - Fraud probability
+            - Contributing risk factors
+            """)
+        
+        with col2:
+            st.markdown("""
+            ### 🔍 Features Analyzed
+            
+            | Feature | Description |
+            |---------|-------------|
+            | **Category** | Type of merchant (grocery, gas, etc.) |
+            | **Amount** | Transaction value in USD |
+            | **Gender** | Cardholder's gender |
+            | **State** | US state where transaction occurred |
+            | **Age** | Cardholder's age |
+            | **Hour** | Time of transaction (0-23) |
+            | **Weekend** | Weekend or weekday transaction |
+            
+            ---
+            
+            ### 💡 Tips
+            
+            - Higher amounts (>$500) may trigger fraud alerts
+            - Late night transactions (after 10 PM) are higher risk
+            - Some categories like online shopping have higher fraud rates
+            """)
+        
+        st.markdown("---")
+        
+        # Show prediction history if exists
+        if st.session_state.prediction_history:
+            st.markdown("### 📜 Recent Predictions")
+            history_df = pd.DataFrame(st.session_state.prediction_history[-5:])  # Last 5
+            st.dataframe(history_df, use_container_width=True)
+

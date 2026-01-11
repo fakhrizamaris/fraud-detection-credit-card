@@ -1,5 +1,5 @@
 """
-Model Performance Tab - Dashboard evaluasi performa model
+Model Performance Tab - Model evaluation dashboard
 """
 import streamlit as st
 import pandas as pd
@@ -18,7 +18,7 @@ def render(model, model_info, performance, feature_columns):
         feature_columns: List of feature column names
     """
     st.title("📊 Model Performance Dashboard")
-    st.markdown("### Evaluasi Performa Model Random Forest")
+    st.markdown("### Random Forest Model Evaluation")
     st.markdown("---")
     
     # Model Info
@@ -77,7 +77,7 @@ def render(model, model_info, performance, feature_columns):
         
         # Show table
         st.markdown("#### 📋 Feature Importance Table")
-        st.dataframe(feature_imp_df.style.format({'Importance': '{:.4f}'}), width='stretch')
+        st.dataframe(feature_imp_df.style.format({'Importance': '{:.4f}'}), use_container_width=True)
     
     st.markdown("---")
     
@@ -85,7 +85,7 @@ def render(model, model_info, performance, feature_columns):
     if st.session_state.prediction_history:
         st.markdown("### 📜 Prediction History")
         history_df = pd.DataFrame(st.session_state.prediction_history)
-        st.dataframe(history_df, width='stretch')
+        st.dataframe(history_df, use_container_width=True)
         
         # Download history
         csv_history = history_df.to_csv(index=False).encode('utf-8')
@@ -96,4 +96,4 @@ def render(model, model_info, performance, feature_columns):
             mime='text/csv'
         )
     else:
-        st.info("📭 Belum ada riwayat prediksi. Lakukan prediksi di tab 'Fraud Detection' terlebih dahulu.")
+        st.info("📭 No prediction history yet. Make predictions in the 'Fraud Detection' tab first.")

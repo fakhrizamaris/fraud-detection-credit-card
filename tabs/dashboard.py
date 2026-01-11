@@ -15,7 +15,7 @@ def render(load_data_func):
         load_data_func: Function to load dataset
     """
     st.title("📈 Data Insights Dashboard")
-    st.markdown("### Eksplorasi Data Historis & Analisis Mendalam")
+    st.markdown("### Historical Data Exploration & In-Depth Analysis")
     st.markdown("---")
     
     try:
@@ -82,7 +82,7 @@ def render(load_data_func):
             if len(missing_df) > 0:
                 st.dataframe(missing_df, width='stretch')
             else:
-                st.success("✅ Tidak ada missing values dalam dataset!")
+                st.success("✅ No missing values found in the dataset!")
         
         with col2:
             st.markdown("#### 📊 Data Types Overview")
@@ -93,8 +93,8 @@ def render(load_data_func):
             })
             
             dtype_chart = alt.Chart(dtype_df).mark_bar().encode(
-                x=alt.X('Count:Q', title='Jumlah Kolom'),
-                y=alt.Y('Data Type:N', sort='-x', title='Tipe Data'),
+                x=alt.X('Count:Q', title='Column Count'),
+                y=alt.Y('Data Type:N', sort='-x', title='Data Type'),
                 color=alt.Color('Data Type:N', legend=None)
             ).properties(height=200)
             st.altair_chart(dtype_chart, width='stretch')
@@ -105,7 +105,7 @@ def render(load_data_func):
         # SECTION 3: OUTLIER DETECTION
         # ==============================================
         st.markdown("## 5️⃣ Outlier Detection")
-        st.markdown("Menggunakan metode **IQR (Interquartile Range)** untuk mendeteksi outlier pada fitur numerik.")
+        st.markdown("Using **IQR (Interquartile Range)** method to detect outliers in numerical features.")
         
         # Select numerical columns for outlier detection
         numerical_cols = ['amt', 'age']
@@ -113,11 +113,11 @@ def render(load_data_func):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("#### 📈 Box Plot - Amount (Sebelum Handling)")
+            st.markdown("#### 📈 Box Plot - Amount (Before Handling)")
             box_amt = alt.Chart(df).mark_boxplot(extent=1.5).encode(
                 y=alt.Y('amt:Q', title='Amount (USD)'),
                 color=alt.value('#3498db')
-            ).properties(height=300, title='Distribusi Amount dengan Outliers')
+            ).properties(height=300, title='Amount Distribution with Outliers')
             st.altair_chart(box_amt, width='stretch')
             
             # Calculate outliers
@@ -129,13 +129,13 @@ def render(load_data_func):
             outliers_amt = df[(df['amt'] < lower_amt) | (df['amt'] > upper_amt)]
             
             st.info(f"""
-            **Statistik Amount:**
+            **Amount Statistics:**
             - Q1: ${Q1_amt:,.2f}
             - Q3: ${Q3_amt:,.2f}
             - IQR: ${IQR_amt:,.2f}
-            - Batas Bawah: ${lower_amt:,.2f}
-            - Batas Atas: ${upper_amt:,.2f}
-            - **Jumlah Outlier: {len(outliers_amt):,} ({len(outliers_amt)/len(df)*100:.2f}%)**
+            - Lower Bound: ${lower_amt:,.2f}
+            - Upper Bound: ${upper_amt:,.2f}
+            - **Total Outliers: {len(outliers_amt):,} ({len(outliers_amt)/len(df)*100:.2f}%)**
             """)
         
         with col2:
@@ -143,7 +143,7 @@ def render(load_data_func):
             box_age = alt.Chart(df).mark_boxplot(extent=1.5).encode(
                 y=alt.Y('age:Q', title='Age (Years)'),
                 color=alt.value('#e74c3c')
-            ).properties(height=300, title='Distribusi Umur')
+            ).properties(height=300, title='Age Distribution')
             st.altair_chart(box_age, width='stretch')
             
             # Calculate outliers for age
@@ -155,13 +155,13 @@ def render(load_data_func):
             outliers_age = df[(df['age'] < lower_age) | (df['age'] > upper_age)]
             
             st.info(f"""
-            **Statistik Age:**
-            - Q1: {Q1_age:.0f} tahun
-            - Q3: {Q3_age:.0f} tahun
-            - IQR: {IQR_age:.0f} tahun
-            - Batas Bawah: {lower_age:.0f} tahun
-            - Batas Atas: {upper_age:.0f} tahun
-            - **Jumlah Outlier: {len(outliers_age):,} ({len(outliers_age)/len(df)*100:.2f}%)**
+            **Age Statistics:**
+            - Q1: {Q1_age:.0f} years
+            - Q3: {Q3_age:.0f} years
+            - IQR: {IQR_age:.0f} years
+            - Lower Bound: {lower_age:.0f} years
+            - Upper Bound: {upper_age:.0f} years
+            - **Total Outliers: {len(outliers_age):,} ({len(outliers_age)/len(df)*100:.2f}%)**
             """)
         
         st.markdown("---")
@@ -169,21 +169,21 @@ def render(load_data_func):
         # ==============================================
         # SECTION 4: NORMALISASI DATA
         # ==============================================
-        st.markdown("## 6️⃣ Normalisasi Data")
-        st.markdown("Perbandingan distribusi data **sebelum** dan **sesudah** normalisasi menggunakan **StandardScaler**.")
+        st.markdown("## 6️⃣ Data Normalization")
+        st.markdown("Comparison of data distribution **before** and **after** normalization using **StandardScaler**.")
         
         from sklearn.preprocessing import StandardScaler
         
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("#### 📊 Sebelum Normalisasi")
+            st.markdown("#### 📊 Before Normalization")
             
             # Amount Distribution Before
             hist_before = alt.Chart(df).mark_bar(opacity=0.7).encode(
                 x=alt.X('amt:Q', bin=alt.Bin(maxbins=30), title='Amount (USD)'),
-                y=alt.Y('count()', title='Frekuensi'),
-                tooltip=[alt.Tooltip('count()', title='Jumlah')]
+                y=alt.Y('count()', title='Frequency'),
+                tooltip=[alt.Tooltip('count()', title='Count')]
             ).properties(height=200, title='Distribusi Amount (Original)')
             st.altair_chart(hist_before, width='stretch')
             
@@ -197,7 +197,7 @@ def render(load_data_func):
             """)
         
         with col2:
-            st.markdown("#### 📊 Sesudah Normalisasi")
+            st.markdown("#### 📊 After Normalization")
             
             # Normalize amount
             scaler = StandardScaler()
@@ -207,8 +207,8 @@ def render(load_data_func):
             # Amount Distribution After
             hist_after = alt.Chart(df_normalized).mark_bar(opacity=0.7, color='#2ecc71').encode(
                 x=alt.X('amt_normalized:Q', bin=alt.Bin(maxbins=30), title='Amount (Normalized)'),
-                y=alt.Y('count()', title='Frekuensi'),
-                tooltip=[alt.Tooltip('count()', title='Jumlah')]
+                y=alt.Y('count()', title='Frequency'),
+                tooltip=[alt.Tooltip('count()', title='Count')]
             ).properties(height=200, title='Distribusi Amount (Normalized)')
             st.altair_chart(hist_after, width='stretch')
             
@@ -229,20 +229,20 @@ def render(load_data_func):
         st.markdown("## 7️⃣ Exploratory Data Analysis (EDA)")
         
         # Row 1: Gender and Category
-        st.markdown("### 📊 Distribusi Variabel Kategorikal")
+        st.markdown("### 📊 Categorical Variable Distribution")
         
         c_col1, c_col2 = st.columns([1, 2])
         
         with c_col1:
-            st.markdown("##### 👥 Distribusi Gender")
+            st.markdown("##### 👥 Gender Distribution")
             gender_counts = df['gender'].value_counts().reset_index()
             gender_counts.columns = ['gender', 'count']
-            gender_counts['gender'] = gender_counts['gender'].map({'M': 'Laki-laki (Male)', 'F': 'Perempuan (Female)'})
+            gender_counts['gender'] = gender_counts['gender'].map({'M': 'Male', 'F': 'Female'})
             
             pie_chart = alt.Chart(gender_counts).mark_arc(innerRadius=50).encode(
                 theta=alt.Theta(field="count", type="quantitative"),
                 color=alt.Color(field="gender", type="nominal", scale=alt.Scale(
-                    domain=['Laki-laki (Male)', 'Perempuan (Female)'],
+                    domain=['Male', 'Female'],
                     range=['#3498db', '#e91e63']
                 )),
                 tooltip=['gender', 'count']
@@ -250,26 +250,26 @@ def render(load_data_func):
             st.altair_chart(pie_chart, width='stretch')
             
         with c_col2:
-            st.markdown("##### 🏢 Top 10 Kategori Transaksi")
+            st.markdown("##### 🏢 Top 10 Transaction Categories")
             cat_counts = df['category'].value_counts().head(10).reset_index()
             cat_counts.columns = ['category', 'count']
             cat_counts['category'] = cat_counts['category'].apply(lambda x: x.replace('_', ' ').title())
             
             bar_chart = alt.Chart(cat_counts).mark_bar().encode(
-                x=alt.X('count:Q', title='Jumlah Transaksi'),
-                y=alt.Y('category:N', sort='-x', title='Kategori'),
+                x=alt.X('count:Q', title='Transaction Count'),
+                y=alt.Y('category:N', sort='-x', title='Category'),
                 color=alt.Color('count:Q', scale=alt.Scale(scheme='blues'), legend=None),
                 tooltip=['category', 'count']
             ).properties(height=300)
             st.altair_chart(bar_chart, width='stretch')
         
         # Row 2: Hour and Weekend
-        st.markdown("### 📊 Pola Waktu Transaksi")
+        st.markdown("### 📊 Transaction Time Patterns")
         
         c_col3, c_col4 = st.columns(2)
         
         with c_col3:
-            st.markdown("##### 🕒 Transaksi per Jam")
+            st.markdown("##### 🕒 Transactions by Hour")
             trx_hour_counts = df['hour'].value_counts().sort_index().reset_index()
             trx_hour_counts.columns = ['hour', 'count']
             
@@ -278,8 +278,8 @@ def render(load_data_func):
                 fillOpacity=0.3,
                 line=True
             ).encode(
-                x=alt.X('hour:O', title='Jam (0-23)'),
-                y=alt.Y('count:Q', title='Jumlah Transaksi'),
+                x=alt.X('hour:O', title='Hour (0-23)'),
+                y=alt.Y('count:Q', title='Transaction Count'),
                 tooltip=['hour', 'count']
             ).properties(height=300)
             st.altair_chart(line_chart, width='stretch')
@@ -305,30 +305,30 @@ def render(load_data_func):
         # ==============================================
         # SECTION 6: EDA - DISTRIBUSI NUMERIK
         # ==============================================
-        st.markdown("### 📊 Distribusi Variabel Numerik")
+        st.markdown("### 📊 Numerical Variable Distribution")
         
         c_col5, c_col6 = st.columns(2)
         
         with c_col5:
-            st.markdown("##### 💰 Distribusi Umur Pemegang Kartu")
+            st.markdown("##### 💰 Cardholder Age Distribution")
             hist_age = alt.Chart(df).mark_bar(opacity=0.8).encode(
-                x=alt.X('age:Q', bin=alt.Bin(maxbins=20), title='Umur'),
-                y=alt.Y('count()', title='Frekuensi'),
+                x=alt.X('age:Q', bin=alt.Bin(maxbins=20), title='Age'),
+                y=alt.Y('count()', title='Frequency'),
                 color=alt.value('#9b59b6'),
-                tooltip=[alt.Tooltip('count()', title='Jumlah')]
+                tooltip=[alt.Tooltip('count()', title='Count')]
             ).properties(height=300)
             st.altair_chart(hist_age, width='stretch')
             
         with c_col6:
-            st.markdown("##### 💳 Distribusi Amount Transaksi")
+            st.markdown("##### 💳 Transaction Amount Distribution")
             # Filter for better visualization (remove extreme outliers)
             df_filtered = df[df['amt'] < df['amt'].quantile(0.99)]
             
             hist_amt = alt.Chart(df_filtered).mark_bar(opacity=0.8).encode(
                 x=alt.X('amt:Q', bin=alt.Bin(maxbins=30), title='Amount (USD)'),
-                y=alt.Y('count()', title='Frekuensi'),
+                y=alt.Y('count()', title='Frequency'),
                 color=alt.value('#1abc9c'),
-                tooltip=[alt.Tooltip('count()', title='Jumlah')]
+                tooltip=[alt.Tooltip('count()', title='Count')]
             ).properties(height=300)
             st.altair_chart(hist_amt, width='stretch')
         
@@ -348,8 +348,8 @@ def render(load_data_func):
             fraud_by_cat['category'] = fraud_by_cat['category'].apply(lambda x: x.replace('_', ' ').title())
             
             fraud_cat_chart = alt.Chart(fraud_by_cat).mark_bar().encode(
-                x=alt.X('fraud_count:Q', title='Jumlah Fraud'),
-                y=alt.Y('category:N', sort='-x', title='Kategori'),
+                x=alt.X('fraud_count:Q', title='Fraud Count'),
+                y=alt.Y('category:N', sort='-x', title='Category'),
                 color=alt.Color('fraud_count:Q', scale=alt.Scale(scheme='reds'), legend=None),
                 tooltip=['category', 'fraud_count']
             ).properties(height=300)
@@ -361,14 +361,14 @@ def render(load_data_func):
             fraud_by_hour.columns = ['hour', 'fraud_count']
             
             fraud_hour_chart = alt.Chart(fraud_by_hour).mark_line(point=True, color='#e74c3c').encode(
-                x=alt.X('hour:O', title='Jam'),
-                y=alt.Y('fraud_count:Q', title='Jumlah Fraud'),
+                x=alt.X('hour:O', title='Hour'),
+                y=alt.Y('fraud_count:Q', title='Fraud Count'),
                 tooltip=['hour', 'fraud_count']
             ).properties(height=300)
             st.altair_chart(fraud_hour_chart, width='stretch')
         
         # Box Plot: Amount by Age Group (Fraud vs Normal)
-        st.markdown("##### � Distribusi Amount berdasarkan Age Group (Fraud vs Normal)")
+        st.markdown("##### 📦 Amount Distribution by Age Group (Fraud vs Normal)")
         
         # Create age groups
         df['age_group'] = pd.cut(df['age'], bins=[0, 25, 40, 60, 100], 
@@ -378,22 +378,33 @@ def render(load_data_func):
         # Filter extreme outliers for better visualization
         df_box = df[df['amt'] < df['amt'].quantile(0.95)]
         
-        box_grouped = alt.Chart(df_box).mark_boxplot(extent=1.5).encode(
-            x=alt.X('age_group:N', title='Age Group', sort=['Young (18-25)', 'Adult (26-40)', 'Middle (41-60)', 'Senior (60+)']),
-            y=alt.Y('amt:Q', title='Amount (USD)'),
-            color=alt.Color('fraud_label:N', scale=alt.Scale(
-                domain=['Normal', 'Fraud'],
-                range=['#3498db', '#e74c3c']
-            ), legend=alt.Legend(title='Status')),
-            column=alt.Column('fraud_label:N', title=None)
-        ).properties(height=350, width=300, title='Perbandingan Distribusi Amount: Normal vs Fraud')
-        st.altair_chart(box_grouped, width='content')
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            # Normal transactions box plot
+            df_normal = df_box[df_box['fraud_label'] == 'Normal']
+            box_normal = alt.Chart(df_normal).mark_boxplot(extent=1.5, color='#3498db').encode(
+                x=alt.X('age_group:N', title='Age Group', sort=['Young (18-25)', 'Adult (26-40)', 'Middle (41-60)', 'Senior (60+)']),
+                y=alt.Y('amt:Q', title='Amount (USD)'),
+                tooltip=['age_group', 'amt']
+            ).properties(height=350, title='Normal Transactions')
+            st.altair_chart(box_normal, use_container_width=True)
+        
+        with col2:
+            # Fraud transactions box plot
+            df_fraud = df_box[df_box['fraud_label'] == 'Fraud']
+            box_fraud = alt.Chart(df_fraud).mark_boxplot(extent=1.5, color='#e74c3c').encode(
+                x=alt.X('age_group:N', title='Age Group', sort=['Young (18-25)', 'Adult (26-40)', 'Middle (41-60)', 'Senior (60+)']),
+                y=alt.Y('amt:Q', title='Amount (USD)'),
+                tooltip=['age_group', 'amt']
+            ).properties(height=350, title='Fraud Transactions')
+            st.altair_chart(box_fraud, use_container_width=True)
         
         st.markdown("""
         **Insight:**
-        - Box plot menunjukkan distribusi Amount untuk setiap kelompok umur
-        - Perbandingan antara transaksi Normal (biru) dan Fraud (merah)
-        - Median, quartiles, dan outliers dapat terlihat dengan jelas
+        - Box plots show Amount distribution for each age group
+        - **Left (Blue)**: Normal transactions - **Right (Red)**: Fraud transactions
+        - Compare median, quartiles, and outliers between Normal vs Fraud
         """)
         
         st.markdown("---")
@@ -402,7 +413,7 @@ def render(load_data_func):
         # SECTION 8: CORRELATION HEATMAP
         # ==============================================
         st.markdown("## 9️⃣ Correlation Analysis")
-        st.markdown("Heatmap korelasi antar fitur numerik menggunakan **Pearson Correlation**.")
+        st.markdown("Correlation heatmap between numerical features using **Pearson Correlation**.")
         
         # Select numerical columns for correlation
         corr_cols = ['amt', 'age', 'hour', 'is_weekend', 'is_fraud']
@@ -417,11 +428,11 @@ def render(load_data_func):
             x=alt.X('Variable2:N', title=None),
             y=alt.Y('Variable1:N', title=None),
             color=alt.Color('Correlation:Q', scale=alt.Scale(scheme='redblue', domain=[-1, 1]),
-                           legend=alt.Legend(title='Korelasi')),
+                           legend=alt.Legend(title='Correlation')),
             tooltip=[
                 alt.Tooltip('Variable1:N', title='Variabel 1'),
                 alt.Tooltip('Variable2:N', title='Variabel 2'),
-                alt.Tooltip('Correlation:Q', title='Korelasi', format='.3f')
+                alt.Tooltip('Correlation:Q', title='Correlation', format='.3f')
             ]
         ).properties(width=400, height=400, title='Correlation Heatmap')
         
@@ -444,28 +455,28 @@ def render(load_data_func):
         
         with col2:
             st.markdown("""
-            #### 📊 Interpretasi Korelasi
+            #### 📊 Correlation Interpretation
             
-            **Skala Korelasi:**
-            - **+1.0**: Korelasi positif sempurna
-            - **0.0**: Tidak ada korelasi
-            - **-1.0**: Korelasi negatif sempurna
+            **Correlation Scale:**
+            - **+1.0**: Perfect positive correlation
+            - **0.0**: No correlation
+            - **-1.0**: Perfect negative correlation
             
-            **Kategori Kekuatan:**
-            - |r| < 0.3: Lemah
-            - 0.3 ≤ |r| < 0.7: Sedang
-            - |r| ≥ 0.7: Kuat
+            **Strength Categories:**
+            - |r| < 0.3: Weak
+            - 0.3 ≤ |r| < 0.7: Moderate
+            - |r| ≥ 0.7: Strong
             
-            **Insight dari Data:**
-            - `amt` dan `is_fraud`: Korelasi positif (transaksi fraud cenderung bernilai lebih tinggi)
-            - `hour` dan `is_fraud`: Perhatikan pola jam-jam tertentu
-            - Korelasi antar prediktor rendah → risiko multikolinearitas minimal
+            **Data Insights:**
+            - `amt` and `is_fraud`: Positive correlation (fraud transactions tend to have higher amounts)
+            - `hour` and `is_fraud`: Note specific hour patterns
+            - Low correlation between predictors → minimal multicollinearity risk
             """)
         
         st.markdown("---")
-        st.success("✅ Eksplorasi data selesai! Gunakan insight ini untuk memahami pola fraud dalam dataset.")
+        st.success("✅ Data exploration complete! Use these insights to understand fraud patterns in the dataset.")
             
     except FileNotFoundError:
-        st.warning("⚠️ File dataset `data/credit_card_transactions2.csv` tidak ditemukan.")
+        st.warning("⚠️ Dataset file `data/credit_card_transactions2.csv` not found.")
     except Exception as e:
-        st.error(f"Terjadi kesalahan saat memuat data: {e}")
+        st.error(f"An error occurred while loading data: {e}")

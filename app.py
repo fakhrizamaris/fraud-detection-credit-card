@@ -6,7 +6,7 @@ Streamlit application untuk deteksi fraud kartu kredit menggunakan Machine Learn
 Struktur:
 - tabs/about_dataset.py    : Tab informasi dataset
 - tabs/fraud_detection.py  : Tab prediksi fraud
-- tabs/data_insights.py    : Tab visualisasi data
+- tabs/dashboard.py        : Tab dashboard data
 - tabs/machine_learning.py : Tab penjelasan ML pipeline
 - tabs/model_performance.py: Tab evaluasi model
 """
@@ -17,15 +17,16 @@ import pickle
 # Import tab modules
 from tabs import about_dataset
 from tabs import fraud_detection
-from tabs import data_insights
+from tabs import dashboard
 from tabs import machine_learning
 from tabs import model_performance
+from tabs import contact_me
 
 # ========================================
 # KONFIGURASI HALAMAN
 # ========================================
 st.set_page_config(
-    page_title="Fraud Detection System",
+    page_title="Credit Card Fraud Analysis",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -70,14 +71,25 @@ if 'prediction_history' not in st.session_state:
     st.session_state.prediction_history = []
 
 # ========================================
+# MAIN HEADER
+# ========================================
+st.markdown("""
+<div style="text-align: center; padding: 20px; margin-bottom: 10px;">
+    <h1 style="margin: 0;">Credit Card Fraud Analysis</h1>
+    <p style="margin: 5px 0 0 0;">Machine Learning-Based Fraud Detection System</p>
+</div>
+""", unsafe_allow_html=True)
+
+# ========================================
 # TABS
 # ========================================
-tab_about, tab1, tab2, tab3, tab4 = st.tabs([
-    "📖 About Dataset", 
-    "🔍 Fraud Detection", 
-    "📈 Data Insights", 
-    "🤖 Machine Learning", 
-    "📊 Model Performance"
+tab_about, tab1, tab2, tab3, tab4, tab_contact = st.tabs([
+    "About Dataset", 
+    "Dashboard", 
+    "Fraud Detection", 
+    "Machine Learning", 
+    "Model Performance",
+    "Contact Me"
 ])
 
 # ========================================
@@ -87,6 +99,9 @@ with tab_about:
     about_dataset.render()
 
 with tab1:
+    dashboard.render(load_data_func=load_data)
+
+with tab2:
     fraud_detection.render(
         model=model,
         scaler=scaler,
@@ -94,9 +109,6 @@ with tab1:
         feature_columns=feature_columns,
         numerical_cols=numerical_cols
     )
-
-with tab2:
-    data_insights.render(load_data_func=load_data)
 
 with tab3:
     machine_learning.render(
@@ -113,13 +125,16 @@ with tab4:
         feature_columns=feature_columns
     )
 
+with tab_contact:
+    contact_me.render()
+
 # ========================================
 # FOOTER
 # ========================================
 st.markdown("---")
 st.markdown(
     "<div style='text-align: center; color: gray;'>"
-    "🔒 Fraud Detection System v1.0 | Powered by Random Forest & Machine Learning"
+    "🛡️ Credit Card Fraud Analysis System | Powered by Machine Learning"
     "</div>",
     unsafe_allow_html=True
 )
