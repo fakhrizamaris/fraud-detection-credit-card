@@ -1,5 +1,5 @@
 """
-Contact Me Tab - Developer profile and contact information
+Contact Me Tab - Profil pengembang dan informasi kontak
 """
 import streamlit as st
 
@@ -10,68 +10,68 @@ def render():
     st.markdown("---")
     
     # Author Section
-    st.markdown("## Author")
+    st.markdown("## Penulis")
     
     st.markdown("""
-    **[Your Full Name]**  
-    *Student / Data Science Enthusiast*
+    **[Nama Lengkap Anda]**  
+    *Mahasiswa / Data Science Enthusiast*
     
-    Department of [Your Department]  
-    [University Name]  
-    [City, Country]
+    Jurusan [Nama Jurusan]  
+    [Nama Universitas]  
+    [Kota, Indonesia]
     """)
     
     st.markdown("---")
     
     # Contact Details
-    st.markdown("## Contact Details")
+    st.markdown("## Detail Kontak")
     
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown("""
-        **Email Address**  
-        📧 your.email@university.edu
+        **Alamat Email**  
+        email@university.ac.id
         
-        **Phone**  
-        📱 +62 xxx-xxxx-xxxx
+        **Telepon**  
+        +62 xxx-xxxx-xxxx
         
-        **Location**  
-        📍 [City, Province, Indonesia]
+        **Lokasi**  
+        [Kota, Provinsi, Indonesia]
         """)
     
     with col2:
         st.markdown("""
         **LinkedIn**  
-        💼 [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)
+        [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)
         
         **GitHub**  
-        🔗 [github.com/yourusername](https://github.com/yourusername)
+        [github.com/yourusername](https://github.com/yourusername)
         
-        **ORCID** *(Optional)*  
-        🆔 [0000-0000-0000-0000](https://orcid.org/0000-0000-0000-0000)
+        **Instagram**  
+        [@username](https://instagram.com/username)
         """)
     
     st.markdown("---")
     
     # Academic Background
-    st.markdown("## Academic Background")
+    st.markdown("## Latar Belakang Akademik")
     
     st.markdown("""
-    | Degree | Institution | Year |
-    |--------|-------------|------|
-    | Bachelor of [Field] | [University Name] | 20XX - Present |
-    | High School | [School Name] | 20XX |
+    | Jenjang | Institusi | Tahun |
+    |---------|-----------|-------|
+    | S1 [Nama Program Studi] | [Nama Universitas] | 20XX - Sekarang |
+    | SMA | [Nama Sekolah] | 20XX |
     """)
     
     st.markdown("---")
     
     # Research Interests
-    st.markdown("## Research Interests")
+    st.markdown("## Minat Penelitian")
     
     st.markdown("""
     - Machine Learning & Artificial Intelligence
-    - Fraud Detection Systems
+    - Sistem Deteksi Fraud
     - Data Mining & Pattern Recognition
     - Financial Technology (FinTech)
     """)
@@ -79,34 +79,35 @@ def render():
     st.markdown("---")
     
     # About This Project
-    st.markdown("## About This Project")
+    st.markdown("## Tentang Proyek Ini")
     
     st.markdown("""
-    This **Credit Card Fraud Detection System** is developed as part of [course name / thesis / research project] 
-    to demonstrate the application of machine learning techniques in financial security.
+    **Credit Card Fraud Detection System** ini dikembangkan sebagai bagian dari 
+    [nama mata kuliah / skripsi / proyek penelitian] untuk mendemonstrasikan 
+    penerapan teknik machine learning dalam keamanan finansial.
     
-    **Objectives:**
-    1. Implement Random Forest classifier for fraud detection
-    2. Handle imbalanced dataset using SMOTE technique
-    3. Develop interactive web-based dashboard using Streamlit
-    4. Provide real-time transaction analysis capability
+    **Tujuan:**
+    1. Mengimplementasikan classifier Random Forest untuk deteksi fraud
+    2. Menangani dataset tidak seimbang menggunakan teknik SMOTE
+    3. Mengembangkan dashboard web interaktif menggunakan Streamlit
+    4. Menyediakan kemampuan analisis transaksi real-time
     
-    **Technologies & Tools:**
-    - **Programming Language:** Python 3.x
-    - **ML Libraries:** Scikit-learn, Imbalanced-learn
+    **Teknologi & Tools:**
+    - **Bahasa Pemrograman:** Python 3.x
+    - **Library ML:** Scikit-learn, Imbalanced-learn
     - **Web Framework:** Streamlit
-    - **Visualization:** Altair, Matplotlib
-    - **Data Processing:** Pandas, NumPy
+    - **Visualisasi:** Altair, Matplotlib
+    - **Pemrosesan Data:** Pandas, NumPy
     """)
     
     st.markdown("---")
     
     # Acknowledgments
-    st.markdown("## Acknowledgments")
+    st.markdown("## Ucapan Terima Kasih")
     
     st.markdown("""
-    I would like to express my gratitude to:
-    - [Supervisor Name] for guidance and supervision
-    - [University/Institution Name] for providing resources
-    - The open-source community for excellent tools and libraries
+    Saya ingin mengucapkan terima kasih kepada:
+    - [Nama Dosen Pembimbing] atas bimbingan dan arahan
+    - [Nama Universitas/Institusi] atas penyediaan sumber daya
+    - Komunitas open-source atas tools dan library yang luar biasa
     """)

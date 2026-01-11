@@ -1,5 +1,5 @@
 """
-Machine Learning Tab - Model training process explanation
+Machine Learning Tab - Penjelasan proses training model
 """
 import streamlit as st
 import pandas as pd
@@ -16,74 +16,74 @@ def render(model, feature_columns, load_data_func):
         load_data_func: Function to load dataset
     """
     st.title("Machine Learning Pipeline")
-    st.markdown("### Fraud Detection Model Training Process")
+    st.markdown("### Proses Training Model Fraud Detection")
     st.markdown("---")
     
     # 1. Data Preprocessing
-    st.markdown("## 1️⃣ Data Preprocessing")
+    st.markdown("## 1. Data Preprocessing")
     
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown("""
-        ### 📊 Preprocessing Steps
+        ### Langkah Preprocessing
         
-        **a. Handling Missing Values**
-        - Identify and fill missing values
-        - Strategy: Mode for categorical, Median for numerical
+        **a. Penanganan Missing Values**
+        - Mengidentifikasi dan mengisi nilai kosong
+        - Strategi: Mode untuk kategorikal, Median untuk numerik
         
         **b. Feature Engineering**
-        - Extract `hour` from transaction timestamp
-        - Calculate `age` from date of birth
-        - Create `amt_per_hour_ratio` for anomaly detection
-        - Create `is_weekend` from transaction day
+        - Ekstraksi `hour` dari timestamp transaksi
+        - Kalkulasi `age` dari tanggal lahir
+        - Membuat `amt_per_hour_ratio` untuk deteksi anomali
+        - Membuat `is_weekend` dari hari transaksi
         
-        **c. Categorical Encoding**
-        - Label Encoding for: `category`, `gender`, `state`
-        - Preserve mapping for new predictions
+        **c. Encoding Kategorikal**
+        - Label Encoding untuk: `category`, `gender`, `state`
+        - Menyimpan mapping untuk prediksi data baru
         """)
     
     with col2:
         st.markdown("""
-        ### 🔢 Data Normalization
+        ### Normalisasi Data
         
-        Numerical features are normalized using **StandardScaler**:
+        Fitur numerik dinormalisasi menggunakan **StandardScaler**:
         
         ```
         z = (x - μ) / σ
         ```
         
-        Where:
-        - `x` = original value
-        - `μ` = mean
-        - `σ` = standard deviation
+        Dimana:
+        - `x` = nilai asli
+        - `μ` = rata-rata (mean)
+        - `σ` = standar deviasi
         
-        **Normalized features:**
-        - `amt` (transaction amount)
-        - `age` (cardholder age)
-        - `hour` (transaction hour)
+        **Fitur yang dinormalisasi:**
+        - `amt` (jumlah transaksi)
+        - `age` (usia)
+        - `hour` (jam)
         - `amt_per_hour_ratio`
         """)
     
     st.markdown("---")
     
     # 2. Class Imbalance
-    st.markdown("## 2️⃣ Handling Class Imbalance")
+    st.markdown("## 2. Penanganan Class Imbalance")
     
     col1, col2 = st.columns([1, 1])
     
     with col1:
         st.markdown("""
-        ### ⚠️ Imbalance Problem
+        ### Masalah Imbalance
         
-        Fraud detection datasets are typically **imbalanced**:
-        - **Normal** transactions: ~99%
-        - **Fraud** transactions: ~1%
+        Dataset fraud detection biasanya **tidak seimbang**:
+        - Transaksi **Normal**: ~99%
+        - Transaksi **Fraud**: ~1%
         
-        Without handling, the model will:
-        - Always predict "Normal"
-        - Fail to detect fraud
-        - Have low Recall
+        Tanpa penanganan, model akan:
+        - Selalu memprediksi "Normal"
+        - Gagal mendeteksi fraud
+        - Memiliki Recall rendah
         """)
         
         # Class Distribution Visualization
@@ -100,27 +100,27 @@ def render(model, feature_columns, load_data_func):
                     range=['#4CAF50', '#F44336']
                 )),
                 tooltip=['Class', 'Count']
-            ).properties(height=250, title='Class Distribution (Before SMOTE)')
+            ).properties(height=250, title='Distribusi Kelas (Sebelum SMOTE)')
             st.altair_chart(pie_class, use_container_width=True)
         except:
-            st.info("Dataset not available for visualization")
+            st.info("Dataset tidak tersedia untuk visualisasi")
     
     with col2:
         st.markdown("""
-        ### ✅ Solution: SMOTE
+        ### Solusi: SMOTE
         
         **Synthetic Minority Over-sampling Technique (SMOTE)**:
         
-        1. Select minority samples (Fraud)
-        2. Find k-nearest neighbors
-        3. Create new synthetic samples
-        4. Balance class distribution
+        1. Memilih sampel minoritas (Fraud)
+        2. Mencari k-nearest neighbors
+        3. Membuat sampel sintetis baru
+        4. Menyeimbangkan distribusi kelas
         
-        **Result:**
-        - Normal class: 50%
-        - Fraud class: 50%
+        **Hasil:**
+        - Kelas Normal: 50%
+        - Kelas Fraud: 50%
         
-        ⚡ Model can learn fraud patterns better!
+        Model dapat belajar pola fraud dengan lebih baik!
         """)
         
         # After SMOTE Visualization
@@ -136,25 +136,25 @@ def render(model, feature_columns, load_data_func):
                 range=['#4CAF50', '#F44336']
             )),
             tooltip=['Class', 'Count']
-        ).properties(height=250, title='Class Distribution (After SMOTE)')
+        ).properties(height=250, title='Distribusi Kelas (Setelah SMOTE)')
         st.altair_chart(pie_balanced, use_container_width=True)
     
     st.markdown("---")
     
     # 3. Model Training
-    st.markdown("## 3️⃣ Model Training")
+    st.markdown("## 3. Training Model")
     
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown("""
-        ### 🌲 Random Forest Classifier
+        ### Random Forest Classifier
         
-        **Why Random Forest?**
-        - Robust against overfitting
-        - Can handle non-linear data
-        - Provides feature importance
-        - High performance for classification
+        **Mengapa Random Forest?**
+        - Robust terhadap overfitting
+        - Dapat menangani data non-linear
+        - Memberikan feature importance
+        - Performa tinggi untuk klasifikasi
         
         **Hyperparameters:**
         """)
@@ -162,18 +162,18 @@ def render(model, feature_columns, load_data_func):
         st.code("""
 model = RandomForestClassifier(
     n_estimators=200,        # 200 decision trees
-    max_depth=15,            # Maximum depth of trees
-    min_samples_split=5,     # Minimum samples to split
-    min_samples_leaf=2,      # Minimum samples in leaf
+    max_depth=15,            # Kedalaman maksimal pohon
+    min_samples_split=5,     # Minimum sampel untuk split
+    min_samples_leaf=2,      # Minimum sampel di leaf
     random_state=42,         # Reproducibility
-    n_jobs=-1,               # Use all CPU cores
-    verbose=0                # Disable verbose output
+    n_jobs=-1,               # Gunakan semua CPU cores
+    verbose=0                # Nonaktifkan verbose output
 )
         """, language="python")
     
     with col2:
         st.markdown("""
-        ### 📈 Training Process
+        ### Proses Training
         
         **1. Train-Test Split**
         - Training: 80%
@@ -182,9 +182,9 @@ model = RandomForestClassifier(
         
         **2. Cross-Validation**
         - 5-Fold CV
-        - Evaluate performance consistency
+        - Mengevaluasi konsistensi performa
         
-        **3. Evaluation Metrics**
+        **3. Metrik Evaluasi**
         - Accuracy
         - Precision
         - Recall
@@ -195,7 +195,7 @@ model = RandomForestClassifier(
     st.markdown("---")
     
     # 4. Feature Importance Explanation
-    st.markdown("## 4️⃣ Feature Importance")
+    st.markdown("## 4. Feature Importance")
     
     if hasattr(model, 'feature_importances_'):
         feature_imp_df = pd.DataFrame({
@@ -205,20 +205,20 @@ model = RandomForestClassifier(
         
         # Altair bar chart
         importance_chart = alt.Chart(feature_imp_df).mark_bar().encode(
-            x=alt.X('Importance:Q', title='Importance Score'),
-            y=alt.Y('Feature:N', sort='-x', title='Feature'),
+            x=alt.X('Importance:Q', title='Skor Importance'),
+            y=alt.Y('Feature:N', sort='-x', title='Fitur'),
             color=alt.Color('Importance:Q', scale=alt.Scale(scheme='blues'), legend=None),
             tooltip=['Feature', alt.Tooltip('Importance:Q', format='.4f')]
         ).properties(height=300, title='Feature Importance - Random Forest')
         st.altair_chart(importance_chart, use_container_width=True)
         
         st.markdown("""
-        **Interpretation:**
-        - **amt (Amount)**: Transaction amount is the strongest predictor
-        - **hour**: Transaction hour affects fraud probability
-        - **age**: Cardholder age is also significant
-        - **category**: Merchant type influences fraud patterns
+        **Interpretasi:**
+        - **amt (Amount)**: Jumlah transaksi adalah prediktor terkuat
+        - **hour**: Jam transaksi mempengaruhi probabilitas fraud
+        - **age**: Usia pemegang kartu juga signifikan
+        - **category**: Jenis merchant berpengaruh pada pola fraud
         """)
     
     st.markdown("---")
-    st.success("✅ Model has been trained and is ready for predictions!")
+    st.success("Model telah ditraining dan siap digunakan untuk prediksi!")

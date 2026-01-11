@@ -1,5 +1,5 @@
 """
-About Dataset Tab - Information about dataset and fraud detection system
+About Dataset Tab - Informasi tentang dataset dan sistem deteksi fraud
 """
 import streamlit as st
 
@@ -13,66 +13,66 @@ def render():
     
     with col1:
         st.markdown("""
-        ### 🎯 Background
+        ### Latar Belakang
         
-        **Credit card fraud** is one of the most damaging financial crimes 
-        in the digital era. Key challenges include:
+        **Fraud kartu kredit** merupakan salah satu kejahatan finansial yang paling 
+        merugikan di era digital. Tantangan utama yang dihadapi meliputi:
         
-        - 💰 Significant financial losses for both consumers and institutions
-        - 📈 Increasing sophistication of fraud techniques
-        - ⏱️ Traditional manual detection methods are slow and inefficient
+        - Kerugian finansial yang signifikan bagi konsumen dan institusi
+        - Teknik fraud yang semakin canggih
+        - Metode deteksi manual yang lambat dan tidak efisien
         
-        **Machine Learning-based** fraud detection systems can identify 
-        suspicious transactions in **milliseconds**, significantly 
-        reducing financial losses and improving security.
+        Sistem deteksi fraud berbasis **Machine Learning** dapat mengidentifikasi 
+        transaksi mencurigakan dalam **hitungan milidetik**, secara signifikan 
+        mengurangi kerugian finansial dan meningkatkan keamanan.
         """)
         
         st.markdown("""
-        ### 📊 About the Dataset
+        ### Tentang Dataset
         
-        This dataset contains **credit card transactions** with the following features:
+        Dataset ini berisi **transaksi kartu kredit** dengan fitur-fitur berikut:
         
-        | Feature | Description |
-        |---------|-------------|
-        | `category` | Merchant type (grocery, gas, shopping, etc.) |
-        | `amt` | Transaction amount in USD |
-        | `gender` | Cardholder's gender |
-        | `state` | US state where transaction occurred |
-        | `age` | Cardholder's age |
-        | `hour` | Hour when transaction was made |
-        | `is_weekend` | Whether transaction was on weekend |
+        | Fitur | Deskripsi |
+        |-------|-----------|
+        | `category` | Jenis merchant (grocery, gas, shopping, dll.) |
+        | `amt` | Jumlah transaksi dalam USD |
+        | `gender` | Jenis kelamin pemegang kartu |
+        | `state` | Negara bagian AS tempat transaksi terjadi |
+        | `age` | Usia pemegang kartu |
+        | `hour` | Jam transaksi dilakukan |
+        | `is_weekend` | Apakah transaksi di akhir pekan |
         | `is_fraud` | Label (0 = Normal, 1 = Fraud) |
         """)
     
     with col2:
         st.markdown("""
-        ### 🔬 Methodology
+        ### Metodologi
         
-        This system uses **Random Forest Classifier** algorithm with the following process:
+        Sistem ini menggunakan algoritma **Random Forest Classifier** dengan proses:
         
-        1. **Data Preprocessing**
-           - Categorical variable encoding
-           - Numerical feature normalization
+        1. **Preprocessing Data**
+           - Encoding variabel kategorikal
+           - Normalisasi fitur numerik
            - Feature engineering (amt_per_hour_ratio)
         
-        2. **Model Training**
-           - Data split: 80% training, 20% testing
+        2. **Training Model**
+           - Pembagian data: 80% training, 20% testing
            - Hyperparameter tuning
            - Cross-validation
         
-        3. **Evaluation**
+        3. **Evaluasi**
            - Accuracy, Precision, Recall, F1-Score
-           - ROC-AUC to measure model discrimination
+           - ROC-AUC untuk mengukur diskriminasi model
         """)
         
         st.markdown("""
-        ### 💡 System Benefits
+        ### Manfaat Sistem
         
-        - ✅ **Real-time Detection**: Analyze transactions in seconds
-        - ✅ **High Accuracy**: Model trained with thousands of historical data
-        - ✅ **Loss Prevention**: Identify fraud before it occurs
-        - ✅ **Operational Efficiency**: Reduce manual review workload
+        - **Deteksi Real-time**: Analisis transaksi dalam hitungan detik
+        - **Akurasi Tinggi**: Model terlatih dengan ribuan data historis
+        - **Pencegahan Kerugian**: Identifikasi fraud sebelum terjadi
+        - **Efisiensi Operasional**: Mengurangi beban review manual
         """)
     
     st.markdown("---")
-    st.info("💡 **Tips**: Use the **Fraud Detection** tab to analyze new transactions, or check **Data Insights** for historical data exploration.")
+    st.info("**Tips**: Gunakan tab **Fraud Detection** untuk menganalisis transaksi baru, atau lihat **Dashboard** untuk eksplorasi data historis.")
